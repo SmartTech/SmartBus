@@ -17,10 +17,14 @@ class SmartIBus
 		SmartIBus(uint32_t _baud);
 		SmartIBus(HardwareSerial* _serial, uint32_t _baud = IBUS_BAUD);
 		SmartIBus(USBSerial*      _serial, uint32_t _baud = IBUS_BAUD);
+		~SmartIBus();
 		
 		void begin();
 		void begin(uint32_t _baud);
 		void handle(void);
+		void end();
+		
+		uint8_t  inited();
 		
 		uint16_t read(uint8_t channelNr);
 
@@ -45,6 +49,7 @@ class SmartIBus
 		
 
 		uint32_t baud = IBUS_BAUD;
+		uint8_t  isInited = false;
 		uint8_t  state;
 		uint32_t last;
 		uint8_t  buffer[PROTOCOL_LENGTH];

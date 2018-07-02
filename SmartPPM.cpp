@@ -21,6 +21,7 @@ SmartPPM::~SmartPPM()
 {
     delete [] rawValues;
     delete [] validValues;
+	this->channelAmount = 0;
 }
 
 void SmartPPM::handlePPM()

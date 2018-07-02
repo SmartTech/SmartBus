@@ -20,21 +20,35 @@ SmartIBus::SmartIBus(USBSerial* _serial, uint32_t _baud) :
 {
 }
 
+SmartIBus::~SmartIBus()
+{
+	this->end();
+}
+
 void SmartIBus::begin()
 {
-  if(serial) serial->begin(baud);
+  if(!serial) return;
+  this->serial->begin(baud);
   this->state   = DISCARD;
   this->last    = millis();
   this->ptr     = 0;
   this->len     = 0;
   this->chksum  = 0;
   this->lchksum = 0;
+  this->isInited = true;
 }
 
 void SmartIBus::begin(uint32_t _baud)
 {
 	baud = _baud;
 	this->begin();
+}
+
+void SmartIBus::end()
+{
+  if(!serial || !isInited) return;
+  this->serial->end();
+  this->isInited = false;
 }
 
 void SmartIBus::handle(void)
@@ -107,6 +121,11 @@ void SmartIBus::handle(void)
         break;
     }
   }
+}
+
+uint8_t SmartIBus::inited()
+{
+  return isInited;
 }
 
 uint16_t SmartIBus::read(uint8_t channelNr)
