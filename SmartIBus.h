@@ -8,6 +8,12 @@
 #define IBUS_BAUD        115200
 #define IBUS_CHANNELS        10
 
+#ifndef Serial
+
+#define Serial Serial2
+
+#endif
+
 class SmartIBus
 {
 	
@@ -16,7 +22,9 @@ class SmartIBus
 		SmartIBus();
 		SmartIBus(uint32_t _baud);
 		SmartIBus(HardwareSerial* _serial, uint32_t _baud = IBUS_BAUD);
+		#ifdef USE_USB_SERIAL
 		SmartIBus(USBSerial*      _serial, uint32_t _baud = IBUS_BAUD);
+		#endif
 		~SmartIBus();
 		
 		void begin();
@@ -45,7 +53,9 @@ class SmartIBus
 		static const uint8_t PROTOCOL_COMMAND40 = 0x40; // Command is always 0x40
 
 		HardwareSerial* serial    = NULL;
+		#ifdef USE_USB_SERIAL
 		USBSerial*      usbSerial = NULL;
+		#endif
 		
 
 		uint32_t baud = IBUS_BAUD;

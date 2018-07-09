@@ -15,10 +15,12 @@ SmartIBus::SmartIBus(HardwareSerial* _serial, uint32_t _baud) :
 {
 }
 
+#ifdef USE_USB_SERIAL
 SmartIBus::SmartIBus(USBSerial* _serial, uint32_t _baud) :
 	usbSerial(_serial), baud(_baud)
 {
 }
+#endif
 
 SmartIBus::~SmartIBus()
 {
